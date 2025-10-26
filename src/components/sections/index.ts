@@ -1,0 +1,6 @@
+export { AboutMeSection } from './AboutMeSection'
+export { HeroSection } from './HeroSection'
+export { AboutContent } from './AboutContent'
+export { ExperienceTimeline } from './ExperienceTimeline'
+export { SkillsDisplay } from './SkillsDisplay'
+export { PersonalTouch } from './PersonalTouch'
