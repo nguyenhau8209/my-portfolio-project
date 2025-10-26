@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const images = project.images || [project.image];
 
@@ -43,26 +44,32 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
   if (!isOpen) return null;
 
   const nextImage = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
     setImageLoaded(false);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const prevImage = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
     setImageLoaded(false);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
       />
 
       {/* Modal */}
       <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="relative bg-surface rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+        <div className="relative bg-surface rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-300 scale-100 animate-modal-enter">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-border">
             <div className="flex items-center space-x-4">

@@ -351,6 +351,55 @@ nav a:focus-visible {
 .timeline-item:nth-child(3) { animation-delay: 0.3s; }
 .timeline-item:nth-child(4) { animation-delay: 0.4s; }
 
+/* Enhanced Timeline Animations */
+@keyframes timelineDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes timelineLineDraw {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+.timeline-current-dot {
+  animation: timelineDotPulse 2s infinite;
+}
+
+.timeline-line-animated {
+  animation: timelineLineDraw 1s ease-out forwards;
+}
+
+/* Timeline hover effects */
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.timeline-item:hover .timeline-content {
+  transform: translateX(4px);
+}
+
+/* Technology tag animations */
+.tech-tag {
+  transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
 /* Skills Grid Animations */
 .skill-category {
   opacity: 0;
@@ -394,6 +443,67 @@ nav a:focus-visible {
   .hover-scale:hover {
     transform: none;
   }
+}
+
+/* Modal Animations */
+@keyframes modalEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+}
+
+@keyframes imageSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes imageSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+.animate-modal-enter {
+  animation: modalEnter 0.3s ease-out;
+}
+
+.animate-modal-exit {
+  animation: modalExit 0.3s ease-in;
+}
+
+.animate-image-slide-in {
+  animation: imageSlideIn 0.3s ease-out;
+}
+
+.animate-image-slide-out {
+  animation: imageSlideOut 0.3s ease-in;
 }
 
 /* Print Styles */
