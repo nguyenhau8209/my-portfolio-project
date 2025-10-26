@@ -1,8 +1,24 @@
+'use client';
+
 import { AppLayout } from '@/components/layout/AppLayout'
-import { AboutMeSection } from '@/components/sections'
+import { AboutMeSection, ProjectsSection, ContactSection } from '@/components/sections'
 import { aboutData } from '@/data/aboutData'
+import { projectsDataWithCategories } from '@/data/projectsData'
+import { contactInfo, socialLinks, formConfig } from '@/data/contactData'
+import { useState } from 'react'
+import { Project } from '@/types/projects'
 
 export default function Home() {
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined);
+
+  const handleProjectSelect = (project: Project) => {
+    setSelectedProject(project);
+  };
+
+  const handleProjectClose = () => {
+    setSelectedProject(undefined);
+  };
+
   return (
     <AppLayout currentSection="home">
       <div className="pt-16">
@@ -37,28 +53,20 @@ export default function Home() {
         <AboutMeSection {...aboutData} />
 
         {/* Projects Section */}
-        <section id="projects" className="py-24 bg-surface">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-8 text-center">
-              My Projects
-            </h2>
-            <p className="text-lg text-text-secondary leading-relaxed text-center">
-              This is a placeholder for the Projects section. The layout components are working correctly!
-            </p>
-          </div>
-        </section>
+        <ProjectsSection
+          projects={projectsDataWithCategories.projects}
+          categories={projectsDataWithCategories.categories}
+          onProjectSelect={handleProjectSelect}
+          onProjectClose={handleProjectClose}
+          selectedProject={selectedProject}
+        />
 
         {/* Contact Section */}
-        <section id="contact" className="py-24 bg-background">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-8 text-center">
-              Get In Touch
-            </h2>
-            <p className="text-lg text-text-secondary leading-relaxed text-center">
-              This is a placeholder for the Contact section. The layout components are working correctly!
-            </p>
-          </div>
-        </section>
+        <ContactSection 
+          contactInfo={contactInfo}
+          socialLinks={socialLinks}
+          formConfig={formConfig}
+        />
       </div>
     </AppLayout>
   )
