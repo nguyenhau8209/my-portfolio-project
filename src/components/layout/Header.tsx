@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { Navigation } from './Navigation'
 import { MobileMenu } from './MobileMenu'
 import { ThemeToggle } from './ThemeToggle'
 import { useNavigation } from '@/hooks/useNavigation'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface HeaderProps {
   currentSection?: string
@@ -12,27 +13,12 @@ interface HeaderProps {
 
 export function Header({ currentSection: propCurrentSection }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light')
   
   // Use the navigation hook for better state management
   const { activeSection, isScrolled, scrollToSection } = useNavigation()
-
-  useEffect(() => {
-    // Initialize theme from localStorage or system preference
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    const theme = savedTheme || systemTheme
-    
-    setCurrentTheme(theme)
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [])
-
-  const handleThemeToggle = useCallback(() => {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light'
-    setCurrentTheme(newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
-    localStorage.setItem('theme', newTheme)
-  }, [currentTheme])
+  
+  // Use the theme context
+  const { theme, resolvedTheme, toggleTheme } = useTheme()
 
   const handleMobileMenuToggle = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev)
@@ -51,8 +37,8 @@ export function Header({ currentSection: propCurrentSection }: HeaderProps) {
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-white/98 backdrop-blur-md shadow-lg border-b border-border' 
-            : 'bg-white/95 backdrop-blur-sm border-b border-border'
+            ? 'bg-background/98 backdrop-blur-md shadow-lg border-b border-border' 
+            : 'bg-background/95 backdrop-blur-sm border-b border-border'
         }`}
         role="banner"
       >
@@ -76,8 +62,9 @@ export function Header({ currentSection: propCurrentSection }: HeaderProps) {
             {/* Header Actions */}
             <div className="flex items-center gap-4">
               <ThemeToggle 
-                currentTheme={currentTheme}
-                onToggle={handleThemeToggle}
+                currentTheme={theme}
+                resolvedTheme={resolvedTheme}
+                onToggle={toggleTheme}
               />
               
               {/* Mobile Menu Toggle */}
