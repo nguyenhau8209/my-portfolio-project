@@ -15,7 +15,7 @@ export function AboutMeSection({
 }: AboutMeSectionProps) {
   return (
     <section id="about" className="py-24 bg-background" aria-labelledby="about-heading">
-      <h2 id="about-heading" className="visually-hidden">About Me</h2>
+      {/* <h2 id="about-heading" className="visually-hidden text-2xl md:text-3xl font-bold text-text-primary text-center relative">About Me</h2> */}
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">

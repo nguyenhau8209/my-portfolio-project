@@ -29,19 +29,19 @@ const defaultSocialLinks: SocialLink[] = [
   {
     platform: 'linkedin',
     url: 'https://linkedin.com/in/username',
-    icon: 'linkedin',
+    icon: 'linkedin.jpg',
     label: 'LinkedIn'
   },
   {
     platform: 'github',
     url: 'https://github.com/username',
-    icon: 'github',
+    icon: 'github.jpg',
     label: 'GitHub'
   },
   {
     platform: 'twitter',
     url: 'https://twitter.com/username',
-    icon: 'twitter',
+    icon: 'twitter.jpg',
     label: 'Twitter'
   }
 ]
@@ -86,7 +86,7 @@ export function Footer({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <span className="text-lg">{social.icon}</span>
+                    <span className="text-lg"><img src={social.icon} alt={social.label} className="w-5 h-5" /></span>
                   </a>
                 ))}
               </div>

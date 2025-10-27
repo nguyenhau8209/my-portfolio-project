@@ -222,6 +222,17 @@ nav a:focus-visible {
   animation: pulse 2s infinite;
 }
 
+/* Theme toggle animation */
+.animate-theme-toggle {
+  animation: themeToggle 0.3s ease-in-out;
+}
+
+@keyframes themeToggle {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
 /* Loading States */
 .nav-link.loading {
   opacity: 0.6;

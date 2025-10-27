@@ -1,46 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-interface ThemeToggleProps {
-  currentTheme: 'light' | 'dark' | 'system'
-  resolvedTheme: 'light' | 'dark'
-  onToggle: () => void
-}
-
-export function ThemeToggle({ currentTheme, resolvedTheme, onToggle }: ThemeToggleProps) {
+export function ThemeToggle() {
   const [isPressed, setIsPressed] = useState(false)
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    // Check initial theme
+    const isDarkMode = document.documentElement.classList.contains('dark')
+    setIsDark(isDarkMode)
+  }, [])
 
   const handleClick = () => {
     setIsPressed(true)
-    onToggle()
+    toggleTheme()
     setTimeout(() => setIsPressed(false), 150)
   }
 
-  const getThemeIcon = () => {
-    switch (currentTheme) {
-      case 'light':
-        return '☀️'
-      case 'dark':
-        return '🌙'
-      case 'system':
-        return '💻'
-      default:
-        return resolvedTheme === 'dark' ? '🌙' : '☀️'
+  const toggleTheme = () => {
+    const newTheme = !isDark
+    setIsDark(newTheme)
+    
+    if (newTheme) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
     }
   }
 
+  const getThemeIcon = () => {
+    return isDark ? '🌙' : '☀️'
+  }
+
   const getThemeLabel = () => {
-    switch (currentTheme) {
-      case 'light':
-        return 'Switch to dark mode'
-      case 'dark':
-        return 'Switch to system mode'
-      case 'system':
-        return 'Switch to light mode'
-      default:
-        return `Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`
-    }
+    return isDark ? 'Switch to light mode' : 'Switch to dark mode'
   }
 
   return (
@@ -51,14 +47,14 @@ export function ThemeToggle({ currentTheme, resolvedTheme, onToggle }: ThemeTogg
           relative w-14 h-7 rounded-full cursor-pointer transition-all duration-300 
           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background
           ${isPressed ? 'animate-theme-toggle' : ''}
-          ${resolvedTheme === 'dark' 
+          ${isDark 
             ? 'bg-primary-600 hover:bg-primary-500' 
             : 'bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500'
           }
         `}
         onClick={handleClick}
         aria-label={getThemeLabel()}
-        aria-pressed={resolvedTheme === 'dark'}
+        aria-pressed={isDark}
         type="button"
       >
         {/* Toggle Track */}
@@ -69,7 +65,7 @@ export function ThemeToggle({ currentTheme, resolvedTheme, onToggle }: ThemeTogg
           className={`
             absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 
             flex items-center justify-center transform
-            ${resolvedTheme === 'dark' ? 'translate-x-7' : 'translate-x-0.5'}
+            ${isDark ? 'translate-x-7' : 'translate-x-0.5'}
           `}
         >
           <span className="text-xs transition-all duration-300">
@@ -80,7 +76,7 @@ export function ThemeToggle({ currentTheme, resolvedTheme, onToggle }: ThemeTogg
 
       {/* Theme Label */}
       <span className="text-sm text-text-secondary font-medium hidden sm:block">
-        {currentTheme === 'system' ? 'System' : currentTheme === 'dark' ? 'Dark' : 'Light'}
+        {isDark ? 'Dark' : 'Light'}
       </span>
     </div>
   )

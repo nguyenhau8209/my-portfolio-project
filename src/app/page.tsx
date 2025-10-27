@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <AppLayout currentSection="home">
+    <AppLayout>
       <div className="pt-16">
         {/* Hero Section */}
         <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">

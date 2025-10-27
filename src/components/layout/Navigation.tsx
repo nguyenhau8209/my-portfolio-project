@@ -1,128 +1,154 @@
 interface NavigationItem {
-  id: string
-  label: string
-  href: string
-  icon?: string
-  external?: boolean
-  order: number
-  description?: string
+  id: string;
+  label: string;
+  href: string;
+  icon?: string;
+  external?: boolean;
+  order: number;
+  description?: string;
 }
 
 interface NavigationProps {
-  items?: NavigationItem[]
-  currentSection?: string
-  onNavClick: (section: string) => void
-  isMobile?: boolean
+  items?: NavigationItem[];
+  currentSection?: string;
+  onNavClick: (section: string) => void;
+  isMobile?: boolean;
 }
 
 const defaultNavigationItems: NavigationItem[] = [
   {
-    id: 'home',
-    label: 'Home',
-    href: '#home',
-    icon: '🏠',
+    id: "home",
+    label: "Home",
+    href: "#home",
+    icon: "🏠",
     external: false,
     order: 0,
-    description: 'Go to home section'
+    description: "Go to home section",
   },
   {
-    id: 'about',
-    label: 'About',
-    href: '#about',
-    icon: '👤',
+    id: "about",
+    label: "About",
+    href: "#about",
+    icon: "👤",
     external: false,
     order: 1,
-    description: 'Learn about me'
+    description: "Learn about me",
   },
   {
-    id: 'projects',
-    label: 'Projects',
-    href: '#projects',
-    icon: '💼',
+    id: "projects",
+    label: "Projects",
+    href: "#projects",
+    icon: "💼",
     external: false,
     order: 2,
-    description: 'View my projects'
+    description: "View my projects",
   },
   {
-    id: 'contact',
-    label: 'Contact',
-    href: '#contact',
-    icon: '📧',
+    id: "contact",
+    label: "Contact",
+    href: "#contact",
+    icon: "📧",
     external: false,
     order: 3,
-    description: 'Get in touch'
+    description: "Get in touch",
   },
   {
-    id: 'resume',
-    label: 'Resume',
-    href: '/resume.pdf',
-    icon: '📄',
+    id: "resume",
+    label: "Resume",
+    href: "/resume.pdf",
+    icon: "📄",
     external: true,
     order: 4,
-    description: 'Download my resume'
-  }
-]
+    description: "Download my resume",
+  },
+];
 
-export function Navigation({ 
-  items = defaultNavigationItems, 
-  currentSection, 
+export function Navigation({
+  items = defaultNavigationItems,
+  currentSection,
   onNavClick,
-  isMobile = false 
+  isMobile = false,
 }: NavigationProps) {
   // Sort items by order
-  const sortedItems = [...items].sort((a, b) => a.order - b.order)
+  const sortedItems = [...items].sort((a, b) => a.order - b.order);
 
   const handleNavClick = (item: NavigationItem) => {
     if (!item.external) {
-      onNavClick(item.id)
+      onNavClick(item.id);
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent, item: NavigationItem) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
       if (!item.external) {
-        handleNavClick(item)
+        handleNavClick(item);
       }
     }
-  }
+  };
 
   if (isMobile) {
     return (
-      <nav className="flex flex-col gap-2" role="navigation" aria-label="Mobile navigation">
+      <nav
+        className="flex flex-col gap-2"
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
         <ul className="flex flex-col gap-1" role="menubar">
           {sortedItems.map((item, index) => (
-            <li key={item.id} role="none" className="mobile-nav-item" style={{ animationDelay: `${index * 0.05}s` }}>
+            <li
+              key={item.id}
+              role="none"
+              className="mobile-nav-item"
+              style={{ animationDelay: `${index * 0.05}s` }}
+            >
               <a
                 href={item.href}
-                className={`group flex items-center gap-3 px-4 py-3 text-lg font-medium rounded-lg transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                className={`group relative flex items-center gap-3 px-4 py-3 text-lg font-medium rounded-lg transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                   currentSection === item.id
-                    ? 'bg-primary/10 border-primary text-primary shadow-sm'
-                    : 'text-text-primary hover:bg-surface hover:border-border hover:shadow-sm border-transparent'
+                    ? "bg-primary/10 border-primary text-primary shadow-sm ring-2 ring-primary ring-opacity-50"
+                    : "text-text-primary hover:bg-surface hover:border-border hover:shadow-sm border-transparent"
                 }`}
                 onClick={(e) => {
                   if (!item.external) {
-                    e.preventDefault()
-                    handleNavClick(item)
+                    e.preventDefault();
+                    handleNavClick(item);
                   }
                 }}
                 onKeyDown={(e) => handleKeyDown(e, item)}
                 role="menuitem"
-                aria-current={currentSection === item.id ? 'page' : undefined}
-                aria-describedby={item.description ? `${item.id}-desc` : undefined}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
+                aria-current={currentSection === item.id ? "page" : undefined}
+                aria-describedby={
+                  item.description ? `${item.id}-desc` : undefined
+                }
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
                 tabIndex={0}
               >
-                <span className={`text-lg transition-transform duration-200 ${
-                  currentSection === item.id ? 'scale-110' : 'group-hover:scale-105'
-                }`}>
+                <span
+                  className={`text-lg transition-transform duration-200 ${
+                    currentSection === item.id
+                      ? "scale-110"
+                      : "group-hover:scale-105"
+                  }`}
+                >
                   {item.icon}
                 </span>
                 <span className="flex-1">{item.label}</span>
                 {item.external && (
-                  <span className="text-xs opacity-60" aria-hidden="true">↗</span>
+                  <span className="text-xs opacity-60" aria-hidden="true">
+                    ↗
+                  </span>
                 )}
+                
+                {/* Mobile active indicator */}
+                {currentSection === item.id && (
+                  <div className="flex flex-col items-center">
+                    <div className="w-2 h-2 bg-primary rounded-full shadow-lg animate-pulse"></div>
+                    <div className="w-1 h-1 bg-primary/60 rounded-full mt-1"></div>
+                  </div>
+                )}
+                
                 {item.description && (
                   <span id={`${item.id}-desc`} className="sr-only">
                     {item.description}
@@ -133,62 +159,86 @@ export function Navigation({
           ))}
         </ul>
       </nav>
-    )
+    );
   }
 
   return (
-    <nav className="hidden md:flex items-center" role="navigation" aria-label="Main navigation">
+    <nav
+      className="hidden md:flex items-center"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <ul className="flex items-center gap-1" role="menubar">
         {sortedItems.map((item, index) => (
-          <li key={item.id} role="none" className="nav-item" style={{ animationDelay: `${index * 0.1}s` }}>
-            <a
-              href={item.href}
-              className={`group relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-                currentSection === item.id
-                  ? 'text-primary bg-primary/10'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-surface'
-              }`}
-              onClick={(e) => {
-                if (!item.external) {
-                  e.preventDefault()
-                  handleNavClick(item)
+          <li
+            key={item.id}
+            role="none"
+            className="nav-item"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <div className={`group relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+              currentSection === item.id 
+                ? "ring-2 ring-primary ring-opacity-50 bg-primary/5" 
+                : ""
+            }`}>
+              <a
+                href={item.href}
+                className={`relative z-10 block ${
+                  currentSection === item.id
+                    ? "text-primary font-semibold"
+                    : "text-text-secondary hover:text-text-primary hover:bg-surface"
+                }`}
+                onClick={(e) => {
+                  if (!item.external) {
+                    e.preventDefault();
+                    handleNavClick(item);
+                  }
+                }}
+                onKeyDown={(e) => handleKeyDown(e, item)}
+                role="menuitem"
+                aria-current={currentSection === item.id ? "page" : undefined}
+                aria-describedby={
+                  item.description ? `${item.id}-desc` : undefined
                 }
-              }}
-              onKeyDown={(e) => handleKeyDown(e, item)}
-              role="menuitem"
-              aria-current={currentSection === item.id ? 'page' : undefined}
-              aria-describedby={item.description ? `${item.id}-desc` : undefined}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noopener noreferrer' : undefined}
-              tabIndex={0}
-            >
-              <span className="flex items-center gap-2">
-                <span className="text-sm">{item.icon}</span>
-                <span>{item.label}</span>
-                {item.external && (
-                  <span className="text-xs opacity-60" aria-hidden="true">↗</span>
-                )}
-              </span>
-              
-              {/* Active indicator */}
-              {currentSection === item.id && (
-                <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-primary rounded-full active-indicator"></span>
-              )}
-              
-              {/* Hover effect */}
-              <span className={`absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                currentSection === item.id ? 'opacity-100' : ''
-              }`}></span>
-              
-              {item.description && (
-                <span id={`${item.id}-desc`} className="sr-only">
-                  {item.description}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+                tabIndex={0}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-sm">{item.icon}</span>
+                  <span>{item.label}</span>
+                  {item.external && (
+                    <span className="text-xs opacity-60" aria-hidden="true">
+                      ↗
+                    </span>
+                  )}
                 </span>
-              )}
-            </a>
+
+                {/* Active indicator */}
+                {/* {currentSection === item.id && (
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+                    <div className="w-3 h-3 bg-primary rounded-full shadow-lg animate-pulse"></div>
+                    <div className="w-1 h-1 bg-primary/60 rounded-full mt-1"></div>
+                  </div>
+                )} */}
+
+                {/* Hover effect */}
+                <span
+                  className={`absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                    currentSection === item.id ? "opacity-100" : ""
+                  }`}
+                ></span>
+
+                {item.description && (
+                  <span id={`${item.id}-desc`} className="sr-only">
+                    {item.description}
+                  </span>
+                )}
+              </a>
+            </div>
           </li>
         ))}
       </ul>
     </nav>
-  )
+  );
 }

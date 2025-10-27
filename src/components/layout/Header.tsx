@@ -5,7 +5,7 @@ import { Navigation } from './Navigation'
 import { MobileMenu } from './MobileMenu'
 import { ThemeToggle } from './ThemeToggle'
 import { useNavigation } from '@/hooks/useNavigation'
-import { useTheme } from '@/contexts/ThemeContext'
+// import { useTheme } from '@/contexts/ThemeContext'
 
 interface HeaderProps {
   currentSection?: string
@@ -18,7 +18,7 @@ export function Header({ currentSection: propCurrentSection }: HeaderProps) {
   const { activeSection, isScrolled, scrollToSection } = useNavigation()
   
   // Use the theme context
-  const { theme, resolvedTheme, toggleTheme } = useTheme()
+  // const { theme, resolvedTheme, toggleTheme } = useTheme()
 
   const handleMobileMenuToggle = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev)
@@ -61,11 +61,7 @@ export function Header({ currentSection: propCurrentSection }: HeaderProps) {
 
             {/* Header Actions */}
             <div className="flex items-center gap-4">
-              <ThemeToggle 
-                currentTheme={theme}
-                resolvedTheme={resolvedTheme}
-                onToggle={toggleTheme}
-              />
+              <ThemeToggle />
               
               {/* Mobile Menu Toggle */}
               <button
