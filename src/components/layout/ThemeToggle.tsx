@@ -1,16 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useTheme } from '@/contexts/ThemeContext'
 
 export function ThemeToggle() {
   const [isPressed, setIsPressed] = useState(false)
-  const [isDark, setIsDark] = useState(false)
-
-  useEffect(() => {
-    // Check initial theme
-    const isDarkMode = document.documentElement.classList.contains('dark')
-    setIsDark(isDarkMode)
-  }, [])
+  const { theme, resolvedTheme, toggleTheme } = useTheme()
 
   const handleClick = () => {
     setIsPressed(true)
@@ -18,25 +13,25 @@ export function ThemeToggle() {
     setTimeout(() => setIsPressed(false), 150)
   }
 
-  const toggleTheme = () => {
-    const newTheme = !isDark
-    setIsDark(newTheme)
-    
-    if (newTheme) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }
-
   const getThemeIcon = () => {
-    return isDark ? '🌙' : '☀️'
+    if (theme === 'system') {
+      return resolvedTheme === 'dark' ? '🌙' : '☀️'
+    }
+    return resolvedTheme === 'dark' ? '🌙' : '☀️'
   }
 
   const getThemeLabel = () => {
-    return isDark ? 'Switch to light mode' : 'Switch to dark mode'
+    if (theme === 'system') {
+      return `System (${resolvedTheme === 'dark' ? 'Dark' : 'Light'}) - Click to switch to ${resolvedTheme === 'dark' ? 'Light' : 'Dark'} mode`
+    }
+    return `Switch to ${resolvedTheme === 'dark' ? 'Light' : 'Dark'} mode`
+  }
+
+  const getThemeText = () => {
+    if (theme === 'system') {
+      return 'System'
+    }
+    return resolvedTheme === 'dark' ? 'Dark' : 'Light'
   }
 
   return (
@@ -47,14 +42,14 @@ export function ThemeToggle() {
           relative w-14 h-7 rounded-full cursor-pointer transition-all duration-300 
           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background
           ${isPressed ? 'animate-theme-toggle' : ''}
-          ${isDark 
+          ${resolvedTheme === 'dark'
             ? 'bg-primary-600 hover:bg-primary-500' 
             : 'bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500'
           }
         `}
         onClick={handleClick}
         aria-label={getThemeLabel()}
-        aria-pressed={isDark}
+        aria-pressed={resolvedTheme === 'dark'}
         type="button"
       >
         {/* Toggle Track */}
@@ -65,7 +60,7 @@ export function ThemeToggle() {
           className={`
             absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 
             flex items-center justify-center transform
-            ${isDark ? 'translate-x-7' : 'translate-x-0.5'}
+            ${resolvedTheme === 'dark' ? 'translate-x-7' : 'translate-x-0.5'}
           `}
         >
           <span className="text-xs transition-all duration-300">
@@ -76,7 +71,7 @@ export function ThemeToggle() {
 
       {/* Theme Label */}
       <span className="text-sm text-text-secondary font-medium hidden sm:block">
-        {isDark ? 'Dark' : 'Light'}
+        {getThemeText()}
       </span>
     </div>
   )

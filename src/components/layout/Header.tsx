@@ -5,7 +5,6 @@ import { Navigation } from './Navigation'
 import { MobileMenu } from './MobileMenu'
 import { ThemeToggle } from './ThemeToggle'
 import { useNavigation } from '@/hooks/useNavigation'
-// import { useTheme } from '@/contexts/ThemeContext'
 
 interface HeaderProps {
   currentSection?: string
@@ -16,9 +15,6 @@ export function Header({ currentSection: propCurrentSection }: HeaderProps) {
   
   // Use the navigation hook for better state management
   const { activeSection, isScrolled, scrollToSection } = useNavigation()
-  
-  // Use the theme context
-  // const { theme, resolvedTheme, toggleTheme } = useTheme()
 
   const handleMobileMenuToggle = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev)

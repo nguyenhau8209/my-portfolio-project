@@ -62,6 +62,10 @@ module.exports = {
           primary: '#1e293b',
           secondary: '#64748b',
           tertiary: '#94a3b8',
+          // Dark mode text colors for better contrast
+          'primary-dark': '#f8fafc',  // Very light gray/white for dark mode
+          'secondary-dark': '#e2e8f0',  // Light gray for dark mode
+          'tertiary-dark': '#cbd5e1',  // Medium light gray for dark mode
         },
         border: {
           DEFAULT: '#e2e8f0',

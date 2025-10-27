@@ -27,9 +27,9 @@
   --secondary: theme('colors.secondary.400');
   --accent: theme('colors.accent.400');
   --background: theme('colors.secondary.900');
-  --surface: theme('colors.secondary.800');
-  --text-primary: theme('colors.secondary.100');
-  --text-secondary: theme('colors.secondary.400');
+  --surface: theme('colors.secondary.900');
+  --text-primary: theme('colors.text.primary-dark');  /* Use dedicated dark mode text color */
+  --text-secondary: theme('colors.text.secondary-dark');  /* Use dedicated dark mode text color */
   --border: theme('colors.secondary.700');
   --success: theme('colors.success.400');
   --error: theme('colors.error.400');
