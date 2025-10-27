@@ -1,6 +1,6 @@
 'use client'
 
-import { ContactInfo, SocialLink } from '@/types/contact'
+import { type ContactInfo, SocialLink } from '@/types/contact'
 
 interface ContactInfoProps {
   contactInfo: ContactInfo
